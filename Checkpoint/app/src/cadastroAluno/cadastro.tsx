@@ -1,10 +1,50 @@
 import AppButton from "@/app/components/button";
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, Alert } from "react-native";
 import { firestore } from "@/services/firebase";
 import { setDoc, addDoc, collection, doc, getDocs } from "firebase/firestore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import * as Notifications from 'expo-notifications';
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+        shouldShowBanner: true,
+        shouldShowList: true,
+    }),
+});
 
 export default function Cadastro() {
+
+    useEffect(() => {
+        permissaoNotification()
+    }, [])
+
+    async function permissaoNotification() {
+        const resposta = await Notifications.requestPermissionsAsync();
+
+        let respostaFinal = resposta;
+
+        if (resposta !== 'granted' ) {
+            const resposta = await Notifications.requestPermissionsAsync();
+            respostaFinal = resposta.status
+        }
+
+        if(respostaFinal !== 'granted') {
+            Alert.alert("Notificação negada.")
+        }
+    }
+
+    async function notification() {
+        await Notifications.scheduleNotificationAsync ({
+            content: {
+                title: 'Cadastro',
+                body: 'Usuário cadastrado'
+            }, 
+            trigger: null
+        
+        })
+    }
 
     const [nome, setNome] = useState('')
 
@@ -34,6 +74,7 @@ export default function Cadastro() {
                 doc(firestore, "tb_aluno", id), { // escolho a coleção onde será salvo o documento
                 name: nome // aqui eu seto os campos que estarao no meu documento
             })
+            notification()
         } catch (error) {
             console.log(error)
         }
