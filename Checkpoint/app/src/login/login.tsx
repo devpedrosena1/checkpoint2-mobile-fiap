@@ -14,19 +14,6 @@ export default function Login() {
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
 
-    useEffect(() => {
-        const verificarUsuarioLogado = async () => {
-            try {
-                const usuarioSalvo = await AsyncStorage.getItem('@user');
-                if (usuarioSalvo) {
-                    router.replace('/src/aluno/aluno');
-                }
-            } catch (error) {
-                console.error('Erro ao verificar usuário logado:', error);
-            }
-        };
-        verificarUsuarioLogado();
-    }, [])
 
     const login = async () => {
         if (!email || !senha) {
@@ -34,16 +21,11 @@ export default function Login() {
             return;
         }
         try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, senha);
-
-        const userData = {
-            email: userCredential.user.email,
-            tipo: "logado"
-        };
-
-        await AsyncStorage.setItem('@user', JSON.stringify(userData));
-        Alert.alert('Login bem-sucedido', `Bem-vindo, ${userCredential.user.email}!`);
-        router.push('/src/home/home');
+            const userCredential = await signInWithEmailAndPassword(auth, email, senha);
+            const token = await userCredential.user.getIdToken();
+            console.log(token);
+            router.push("../menu/menu")
+        
 
     } catch (error: any) {   
         console.log('Erro ao fazer login:', error.code, error.message);
