@@ -1,7 +1,7 @@
 import AppButton from "@/app/components/button";
 import { View, Text, TextInput, Alert } from "react-native";
 import { firestore } from "@/services/firebase";
-import { setDoc, addDoc, collection, doc, getDocs } from "firebase/firestore";
+import { setDoc, collection, doc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import * as Notifications from 'expo-notifications';
 
@@ -21,11 +21,11 @@ export default function Cadastro() {
     }, [])
 
     async function permissaoNotification() {
-        const resposta = await Notifications.requestPermissionsAsync();
+        const {status} = await Notifications.requestPermissionsAsync();
 
-        let respostaFinal = resposta;
+        let respostaFinal = status;
 
-        if (resposta !== 'granted' ) {
+        if (status !== 'granted') {
             const resposta = await Notifications.requestPermissionsAsync();
             respostaFinal = resposta.status
         }
