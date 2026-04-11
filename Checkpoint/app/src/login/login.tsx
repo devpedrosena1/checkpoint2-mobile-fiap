@@ -1,10 +1,9 @@
 import AppButton from "@/app/components/button";
 import { auth } from "@/services/firebase";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { Alert, Text, TextInput, View } from "react-native";
+import { useState } from "react";
+import { Text, TextInput, View } from "react-native";
 
 
 export default function Login() {
@@ -39,24 +38,63 @@ export default function Login() {
     }
 
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>Login</Text>
-            <TextInput style={{ justifyContent: 'center', borderWidth: 1, borderColor: 'gray', margin: 5 }} placeholder="Digite seu e-mail: " onChangeText={(text) => setEmail(text)}></TextInput>
-            <TextInput style={{ justifyContent: 'center', borderWidth: 1, borderColor: 'gray', margin: 5 }} placeholder="Digite sua senha: " onChangeText={(text) => setSenha(text)}></TextInput>
+    <View style={{ flex: 1, justifyContent: "center", backgroundColor: "white", padding: 20 }}>
+        <Text
+            style={{
+                fontSize: 28,
+                fontWeight: "bold",
+                textAlign: "center",
+                color: "#222",
+                marginBottom: 24
+            }}
+        >
+            Login
+        </Text>
 
-            <View style={{ marginTop: 20 }}>
-                <AppButton
-                    title="Login"
-                    onPress={login}
-                />
-            </View>
-            
-            <View style={{ marginTop: 10 }}>
-                <AppButton
-                    title="Voltar"
-                    onPress={() => router.back()}
-                />
-            </View>
+        <TextInput
+            style={{
+                borderWidth: 1,
+                borderColor: "#ccc",
+                borderRadius: 10,
+                padding: 12,
+                marginBottom: 12,
+                fontSize: 16,
+                backgroundColor: "#171414ff",
+                color: "#fff"
+            }}
+            placeholder="Digite seu e-mail: "
+            onChangeText={(text) => setEmail(text)}
+        />
+
+        <TextInput
+            style={{
+                borderWidth: 1,
+                borderColor: "#ccc",
+                borderRadius: 10,
+                padding: 12,
+                marginBottom: 20,
+                fontSize: 16,
+                backgroundColor: "#171414ff",
+                color: "#fff"
+            }}
+            placeholder="Digite sua senha: "
+            onChangeText={(text) => setSenha(text)}
+            secureTextEntry
+        />
+
+        <View style={{ marginTop: 8, marginBottom: 10 }}>
+            <AppButton
+                title="Login"
+                onPress={login}
+            />
         </View>
-    )
+        
+        <View style={{ marginTop: 4 }}>
+            <AppButton
+                title="Voltar"
+                onPress={() => router.back()}
+            />
+        </View>
+    </View>
+)
 }

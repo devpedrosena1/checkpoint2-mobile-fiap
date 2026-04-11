@@ -1,9 +1,10 @@
 import AppButton from "@/app/components/button";
-import { View, Text, TextInput, Alert } from "react-native";
 import { firestore } from "@/services/firebase";
-import { setDoc, collection, doc, getDocs } from "firebase/firestore";
-import { useEffect, useState } from "react";
 import * as Notifications from 'expo-notifications';
+import { router } from "expo-router";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { Alert, Text, TextInput, View } from "react-native";
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -81,10 +82,40 @@ export default function Cadastro() {
     }
 
     return (
-        <View>
-            <Text>Cadastro</Text>
-            <TextInput placeholder="Informe o nome do aluno: " value={nome} onChangeText={setNome}></TextInput>
+    <View style={{ flex: 1, backgroundColor: "white", padding: 16, justifyContent: "center" }}>
+        <Text
+            style={{
+                fontSize: 26,
+                fontWeight: "bold",
+                textAlign: "center",
+                color: "#222",
+                marginBottom: 20
+            }}
+        >
+            Cadastro
+        </Text>
+
+        <TextInput
+            placeholder="Informe o nome do aluno: "
+            value={nome}
+            onChangeText={setNome}
+            style={{
+                borderWidth: 1,
+                borderColor: "#ccc",
+                borderRadius: 10,
+                padding: 12,
+                marginBottom: 16,
+                fontSize: 16,
+                backgroundColor: "#171414ff",
+                color: "#fff"
+            }}
+        />
+
+        <View style={{ marginBottom: 12 }}>
             <AppButton title="Cadastrar" onPress={cadastrar}/>
         </View>
-    )
+
+        <AppButton title="Voltar" onPress={() => router.back()}></AppButton>
+    </View>
+)
 }
